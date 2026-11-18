@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Work Schedule">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Work Schedule</title>
+<style>
+:root{--bg:#F2EFE9;--card:#FCFBF8;--line:#E3DCD0;--muted:#8A857D;--text:#3B3A36;--sage:#8B9A8B;--sage-d:#6B7D6B;--sage-l:#E8EDE8;--taupe:#B8A99A;--taupe-l:#EDE6DD;--stone:#A8A29A;--dusty:#A99BAE}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@400;600;700;900&family=Noto+Sans+HK:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap');
+*{box-sizing:border-box}body{font-family:"Noto Sans HK","PingFang HK","Microsoft JhengHei",-apple-system,sans-serif;margin:0;background:var(--bg);color:var(--text);padding-bottom:60px;-webkit-font-smoothing:antialiased;letter-spacing:.02em}
+.top{max-width:1080px;margin:0 auto;padding:28px 20px 10px}
+.top .eyebrow{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:5px;color:var(--muted);text-transform:uppercase;font-style:italic}
+.top h1{margin:8px 0 4px;font-family:"Noto Serif HK","Songti TC","PMingLiU",serif;font-size:42px;font-weight:900;letter-spacing:6px;line-height:1.05}.top h1 b{font-weight:700;color:var(--sage-d)}
+.top p{margin:6px 0 0;font-size:14px;color:var(--muted);letter-spacing:2px;font-weight:300}
+.wrap{max-width:1080px;margin:0 auto;padding:14px 20px}
+.monthCard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 8px 24px rgba(90,80,70,.06)}
+.monthRow{display:flex;gap:10px;align-items:center}.monthRow select{flex:1;font-family:"Noto Serif HK",serif;font-size:19px;font-weight:700;padding:12px 14px;letter-spacing:2px;border-radius:12px;border:1px solid var(--line);background:#F8F6F1;color:var(--text)}
+.tabs{display:flex;gap:6px;background:#ECE8DF;padding:4px;border-radius:999px;margin-top:14px}.tabs button{flex:1;padding:11px;border:0;background:transparent;color:#7A756E;font-family:"Noto Serif HK",serif;font-weight:700;border-radius:999px;letter-spacing:2px;font-size:15px}.tabs button.on{background:#6B7D6B;color:#fff;box-shadow:0 3px 10px rgba(107,125,107,.25)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.kpi{background:#F8F6F1;border:1px solid var(--line);border-radius:14px;padding:14px 8px;text-align:center}.kpi b{display:block;font-family:"Noto Serif HK",serif;font-size:28px;font-weight:700;letter-spacing:1px}.kpi span{font-size:12px;color:var(--muted);letter-spacing:1px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 6px 18px rgba(90,80,70,.05)}
+select,input,textarea,button{font-family:inherit;font-size:15px;padding:11px 12px;border-radius:11px;border:1px solid var(--line)}button{cursor:pointer;background:var(--sage-d);color:#fff;border:0;font-weight:600;letter-spacing:1.5px;font-family:"Noto Sans HK",sans-serif}button.ghost{background:#ECE8DF;color:#3B3A36}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.hd{font-weight:600;text-align:center;color:#9A948B;font-size:12px;letter-spacing:2px;padding:8px 0;border-bottom:1px solid var(--line)}
+.day{min-height:118px;border:1px solid var(--line);border-radius:13px;padding:9px;cursor:pointer;background:#FCFBF8}.day.off{background:#F2EFE9}.day.hasWork{background:#F4F6F3;border-color:#C5D0C5}.num{font-family:"Noto Serif HK",serif;font-weight:700;font-size:20px;letter-spacing:1px}.hol{color:#9A7A7A;font-size:11px;line-height:1.3}.assign{font-size:12px;color:#fff;border-radius:7px;padding:4px 6px;margin-top:5px;word-break:break-all;line-height:1.3}.assign.am{background:#7E8F7E}.assign.pm{background:#A89A8A}
+.pill{display:inline-block;padding:8px 16px;border-radius:999px;font-size:14px;margin:4px;font-family:"Noto Serif HK",serif;font-weight:600;letter-spacing:1px;background:#ECE8DF;color:#7A756E;border:1px solid var(--line);letter-spacing:.5px}.pill.green{background:#6B7D6B;color:#fff;border-color:#6B7D6B}
+.row{display:flex;gap:7px;margin:8px 0;align-items:center}.row input{flex:1}.small{font-size:12px;color:var(--muted);letter-spacing:.5px}.hide{display:none}.timebtn{background:#ECE8DF;color:#3B3A36;padding:7px 10px;font-size:13px;border:0}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.label{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}.day{min-height:88px;padding:6px}.assign{font-size:11px}.num{font-size:15px}.top h1{font-size:28px}}
+.seg{display:flex;background:#ECE8DF;padding:4px;border-radius:999px;flex:1}.seg button{flex:1;padding:9px 4px;border:0;background:transparent;color:#7A756E;font-weight:700;border-radius:999px;font-size:14px}.seg button.on{background:#6B7D6B;color:#fff;box-shadow:0 2px 8px rgba(107,125,107,.3)}</style>
+<style>
+html,body{overflow-x:hidden;max-width:100%;overscroll-behavior-x:none;touch-action:pan-y;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{position:relative;width:100%}
+.wrap,.top{max-width:1080px;overflow-x:hidden}
+*{-webkit-touch-callout:none}
+input,textarea,select{font-size:16px !important}
+.seg{display:flex;background:#ECE8DF;padding:4px;border-radius:999px;flex:1}.seg button{flex:1;padding:9px 4px;border:0;background:transparent;color:#7A756E;font-weight:700;border-radius:999px;font-size:14px}.seg button.on{background:#6B7D6B;color:#fff;box-shadow:0 2px 8px rgba(107,125,107,.3)}</style>
+<script>
+document.addEventListener('gesturestart',function(e){e.preventDefault()}, {passive:false});
+document.addEventListener('dblclick',function(e){e.preventDefault()}, {passive:false});
+document.addEventListener('touchmove',function(e){if(e.scale&&e.scale!==1)e.preventDefault()}, {passive:false});
+let lastTouch=0;document.addEventListener('touchend',function(e){let now=Date.now();if(now-lastTouch<=300)e.preventDefault();lastTouch=now}, {passive:false});
+</script>
+</head>
+<body><div class="top"><div class="eyebrow">Work Schedule · 2026 — 2027</div><h1>工作 <b>月曆</b></h1></div><div class="wrap">
+<div class="monthCard"><div class="monthRow"><select id="month"></select><button onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">回到月曆</button></div>
+<div class="tabs"><button id="t1" class="on" onclick="showTab(1)">排更月曆</button><button id="t2" onclick="showTab(2)">當月分店清單</button></div>
+<div class="kpis" id="stats"></div></div>
+<div id="calTab"><div class="card" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button onclick="exportCSV()">匯出 CSV</button><button class="ghost" onclick="exportJSON()">匯出備份</button><button class="ghost" onclick="importJSON()">匯入備份</button><input type="file" id="fileIn" class="hide" accept=".json"><span class="small">資料只儲喺呢部裝置 · 唔經伺服器</span></div>
+<div class="card"><div class="label">本月分店代碼</div><div id="branchPills" style="margin-top:10px"></div><div class="small" style="margin-top:8px">深綠灰 = 已編 · 淺米灰 = 未編</div></div>
+<div class="card"><div class="grid"><div class="hd">一</div><div class="hd">二</div><div class="hd">三</div><div class="hd">四</div><div class="hd">五</div><div class="hd">六</div><div class="hd">日</div></div><div class="grid" id="grid" style="margin-top:6px"></div><div class="small" style="margin-top:10px">撳任何一日即可編輯嗰日</div></div>
+<div class="card"><div class="label">整月備註</div><textarea id="monthNote" rows="3" style="width:100%;margin-top:8px" placeholder="交接事項..."></textarea></div></div>
+<div id="listTab" class="hide"><div class="card"><h3 style="margin:0;font-family:\"Noto Serif HK\",serif;font-weight:900;letter-spacing:4px;font-size:22px">當月分店清單</h3><p class="small">每個月份分開入，唔同月份可以完全唔同。</p><div class="row"><input id="newBranch" placeholder="輸入分店代碼，例如 中總"><button onclick="addBranch()">新增</button></div><textarea id="bulk" rows="4" style="width:100%" placeholder="批量加入：一行一個分店代碼"></textarea><button onclick="bulkAdd()" style="margin-top:6px">批量加入</button><div id="masterList" style="margin-top:12px"></div></div></div>
+<div id="editor" class="card hide" style="border-color:#6B7D6B"><div style="display:flex;justify-content:space-between;align-items:center"><h3 id="edTitle" style="margin:0;font-weight:500"></h3><span class="small">編輯中</span></div><div class="divider"></div><div>狀態： <button id="btnWork" onclick="setStatus('返工')">返工</button> <button id="btnOff" class="ghost" onclick="setStatus('放假')">放假</button></div><div id="assignList"></div><div class="small" style="margin-top:10px">要入第 2 間 / 第 3 間，撳下面「+ 新增分店」，唔好直接改上面嗰個下拉，改上面嗰個係會 replace 咗佢。</div><button onclick="addAssign()" style="margin-top:8px;width:100%;padding:12px;background:#6B7D6B">+ 新增分店（入多一間）</button><div class="small" id="assignCount" style="margin-top:6px"></div><div style="margin-top:12px">備註<br><textarea id="edNote" rows="2" style="width:100%;margin-top:6px"></textarea></div><div style="margin-top:12px;display:flex;gap:8px"><button onclick="saveDay()" style="flex:1">儲存呢日</button><button class="ghost" onclick="closeEd()">取消</button></div><div id="saveMsg" class="small" style="margin-top:8px;color:#6B7D6B"></div></div>
+</div><p style="text-align:center;color:#9A948B;font-size:12px;letter-spacing:2px">MORANDI · 單檔 HTML · GITHUB PAGES</p><script>
+const HOL={'2026-12-25':'聖誕節','2026-12-26':'聖誕節後第一個周日','2027-01-01':'元旦','2027-02-17':'農曆年初一','2027-02-18':'農曆年初二','2027-02-19':'農曆年初三','2027-04-02':'耶穌受難節','2027-04-03':'耶穌受難節翌日','2027-04-06':'清明節','2027-04-07':'清明節翌日','2027-05-01':'勞動節','2027-05-25':'佛誕','2027-06-18':'端午節','2027-07-01':'香港特別行政區成立紀念日','2027-09-17':'中秋節翌日','2027-10-01':'國慶日','2027-10-19':'重陽節','2027-12-25':'聖誕節','2027-12-27':'聖誕節後第一個周日'};
+let months=[];for(let y of [2026,2027]){for(let m=1;m<=12;m++){if(y==2026&&m!=12)continue;months.push(y+'-'+String(m).padStart(2,'0'));}}
+let monthSel=document.getElementById('month');months.forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m.slice(0,4)+'年'+parseInt(m.slice(5))+'月';monthSel.appendChild(o)});monthSel.value='2026-12';
+let store=JSON.parse(localStorage.getItem('work-schedule-morandi-v1')||'{}');
+function save(){localStorage.setItem('work-schedule-morandi-v1',JSON.stringify(store));render();}
+function getMonth(){let k=monthSel.value;if(!store[k])store[k]={days:{},master:[],note:''};return store[k];}
+function cur(){return monthSel.value}
+function showTab(n){document.getElementById('calTab').classList.toggle('hide',n!=1);document.getElementById('listTab').classList.toggle('hide',n!=2);document.getElementById('t1').classList.toggle('on',n==1);document.getElementById('t2').classList.toggle('on',n==2);render();}
+monthSel.onchange=()=>{closeEd();render()};
+function counts(){let c={};let d=getMonth().days;for(let k in d){(d[k].assign||[]).forEach(a=>{if(a.code)c[a.code]=(c[a.code]||0)+1}) }return c;}
+function render(){
+ let [y,m]=cur().split('-').map(Number);let first=new Date(y,m-1,1);let offset=(first.getDay()+6)%7;let days=new Date(y,m,0).getDate();let g=document.getElementById('grid');g.innerHTML='';for(let i=0;i<offset;i++)g.innerHTML+='<div></div>';
+ let c=counts();let work=0,off=0;let md=getMonth();
+ for(let d=1;d<=days;d++){let key=cur()+'-'+String(d).padStart(2,'0');let day=md.days[key]||{status:'',assign:[],note:''};if(day.status=='返工')work++;if(day.status=='放假')off++;
+  let div=document.createElement('div');div.className='day '+(day.status=='放假'?'off':'')+((day.assign&&day.assign.length)?' hasWork':'');div.onclick=()=>openEd(key);
+  div.innerHTML='<div class="num">'+d+'</div>'+(HOL[key]?'<div class="hol">'+HOL[key]+'</div>':'')+'<div class="small">'+(day.status||'')+'</div>'+(day.assign||[]).slice().sort((x,y)=>{let ox=(x.time=='上午'||x.time=='09:00-11:00')?0:(x.time=='下午'||x.time=='15:00-17:00')?1:2;let oy=(y.time=='上午'||y.time=='09:00-11:00')?0:(y.time=='下午'||y.time=='15:00-17:00')?1:2;return ox-oy}).map(a=>{let t=(a.time=='09:00-11:00')?'上午':(a.time=='15:00-17:00'?'下午':(a.time||''));let cls=(t=='上午')?'am':(t=='下午'?'pm':'');return '<div class="assign '+cls+'">'+(a.code||'')+' '+t+'</div>'}).join('');
+  g.appendChild(div);}
+ let total=Object.values(c).reduce((a,b)=>a+b,0);
+ document.getElementById('stats').innerHTML='<div class="kpi"><b>'+work+'</b><span>返工日數</span></div><div class="kpi"><b>'+off+'</b><span>放假日數</span></div><div class="kpi"><b>'+total+'</b><span>分店節數</span></div><div class="kpi"><b>'+md.master.length+'</b><span>本月分店</span></div>';
+ let pills=document.getElementById('branchPills');pills.innerHTML=md.master.length?md.master.map(b=>'<span class="pill '+(c[b]?'green':'')+'">'+b+'</span>').join(''):'<span class="small">未設定，去「當月分店清單」入定先</span>';
+ let extra=Object.keys(c).filter(x=>!md.master.includes(x));if(extra.length)pills.innerHTML+='<br><span class="small">未在清單的分店：</span>'+extra.map(b=>'<span class="pill green">'+b+'</span>').join('');
+ document.getElementById('monthNote').value=md.note||'';document.getElementById('monthNote').onchange=e=>{md.note=e.target.value;save()};
+ let ml=document.getElementById('masterList');ml.innerHTML=md.master.map((b,i)=>'<div class="row" style="background:#F8F6F1;padding:12px;border-radius:12px;border:1px solid #E3DCD0"><span style="flex:1;font-weight:600">'+b+'</span><button class="ghost" onclick="delBranch('+i+')">× 刪除</button></div>').join('')||'<span class="small">未有當月分店清單</span>';
+}
+function addBranch(){let v=document.getElementById('newBranch').value.trim();if(!v)return;let md=getMonth();if(!md.master.includes(v))md.master.push(v);document.getElementById('newBranch').value='';save();}
+function bulkAdd(){let lines=document.getElementById('bulk').value.split('\n').map(s=>s.trim()).filter(Boolean);let md=getMonth();lines.forEach(v=>{if(!md.master.includes(v))md.master.push(v)});document.getElementById('bulk').value='';save();}
+function delBranch(i){getMonth().master.splice(i,1);save();}
+let edKey=null,edData=null;
+function openEd(key){edKey=key;let md=getMonth();edData=JSON.parse(JSON.stringify(md.days[key]||{status:'返工',assign:[],note:''}));if(!edData.assign.length)edData.assign=[{code:'',time:''}];document.getElementById('editor').classList.remove('hide');document.getElementById('edTitle').textContent=key;document.getElementById('edNote').value=edData.note||'';document.getElementById('saveMsg').textContent='';renderEd();document.getElementById('editor').scrollIntoView({behavior:'smooth'});}
+function renderEd(){let c=document.getElementById('assignList');c.innerHTML=edData.assign.map((a,i)=>{
+let edMonthKey=edKey?edKey.slice(0,7):cur(); let edMaster=(store[edMonthKey]&&store[edMonthKey].master)||[]; let opts=edMaster.map(b=>'<option value="'+b+'"'+(a.code==b?' selected':'')+'>'+b+'</option>').join('');
+if(a.code && !edMaster.includes(a.code)) opts+='<option value="'+a.code+'" selected>'+a.code+'</option>';
+let curT=(a.time=='09:00-11:00'?'上午':(a.time=='15:00-17:00'?'下午':(a.time||'')));
+let tSel='<div class="seg"><button type="button" class="'+(curT=='上午'?'on':'')+'" onclick="edData.assign['+i+'].time=\'上午\';renderEd()">上午</button><button type="button" class="'+(curT=='下午'?'on':'')+'" onclick="edData.assign['+i+'].time=\'下午\';renderEd()">下午</button></div>';
+return '<div class="row"><select onchange="edData.assign['+i+'].code=this.value" style="flex:1"><option value="">-- 揀分店代碼 --</option>'+opts+'</select>'+tSel+'<button class="ghost" onclick="delAssign('+i+')">× 刪除</button></div>';
+}).join('');if(!edMaster.length){c.innerHTML+='<div class="small" style="margin-top:6px">呢個月未入分店清單，去「當月分店清單」入咗先，呢度就會即刻變。</div>';}document.getElementById('btnWork').className=edData.status=='返工'?'':'ghost';document.getElementById('btnOff').className=edData.status=='放假'?'':'ghost';let ac=document.getElementById('assignCount');if(ac)ac.textContent='呢日而家有 '+edData.assign.length+' 間分店';}
+function setStatus(s){edData.status=s;renderEd();}
+function addAssign(){edData.assign.push({code:'',time:''});renderEd();}
+function delAssign(i){edData.assign.splice(i,1);if(!edData.assign.length)edData.assign=[{code:'',time:''}];renderEd();}
+function saveDay(){edData.note=document.getElementById('edNote').value;if(edData.status=='放假')edData.assign=[];else edData.assign=edData.assign.filter(a=>a.code||a.time).sort((x,y)=>{let ox=(x.time=='上午')?0:(x.time=='下午')?1:2;let oy=(y.time=='上午')?0:(y.time=='下午')?1:2;return ox-oy});getMonth().days[edKey]=edData;save();document.getElementById('saveMsg').textContent='已儲存 · Refresh 都唔會唔見';setTimeout(closeEd,700);}
+function closeEd(){document.getElementById('editor').classList.add('hide');edKey=null;}
+function exportCSV(){let [y,m]=cur().split('-').map(Number);let days=new Date(y,m,0).getDate();let md=getMonth();let rows=[['日期','星期','狀態','分店代碼','上班時間','備註']];let wd=['日','一','二','三','四','五','六'];for(let d=1;d<=days;d++){let key=cur()+'-'+String(d).padStart(2,'0');let day=md.days[key]||{status:'',assign:[],note:''};let wk=wd[new Date(y,m-1,d).getDay()];if(day.assign&&day.assign.length)day.assign.forEach(a=>rows.push([key,wk,day.status||'返工',a.code,a.time,day.note||'']));else rows.push([key,wk,day.status||'','','',day.note||'']);}
+ rows.push([]);rows.push(['本月分店代碼清單']);md.master.forEach(b=>rows.push([b]));let csv='\ufeff'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');let blob=new Blob([csv],{type:'text/csv;charset=utf-8'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=cur()+'-工作月曆.csv';a.click();}
+function exportJSON(){let blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='工作月曆備份.json';a.click();}
+function importJSON(){document.getElementById('fileIn').click();}document.getElementById('fileIn').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{store=JSON.parse(r.result);save();alert('已匯入');}catch(_){alert('檔案格式唔啱')}};r.readAsText(f);};
+render();
+</script></body></html>
