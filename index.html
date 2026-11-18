@@ -72,7 +72,7 @@ function render(){
   div.innerHTML='<div class="num">'+d+'</div>'+(HOL[key]?'<div class="hol">'+HOL[key]+'</div>':'')+'<div class="small">'+(day.status||'')+'</div>'+sortAssign(day.assign).map(a=>{let t=(a.time=='09:00-11:00')?'上午':(a.time=='15:00-17:00'?'下午':(a.time||''));let cls=(t=='上午')?'am':(t=='下午'?'pm':'');return '<div class="assign '+cls+'"><span class="c">'+(a.code||'')+'</span><span class="t">'+t+'</span></div>'}).join('');
   g.appendChild(div);}
  let total=Object.values(c).reduce((a,b)=>a+b,0);
- document.getElementById('stats').innerHTML='<div class="kpi"><b>'+total+'</b><span>分店節數</span></div><div class="kpi"><b>'+md.master.length+'</b><span>本月分店</span></div>';
+ document.getElementById('stats').innerHTML='<div class="kpi"><b>'+total+'</b><span>已排分店</span></div><div class="kpi"><b>'+md.master.length+'</b><span>本月分店</span></div>';
  let pills=document.getElementById('branchPills');pills.innerHTML=md.master.length?md.master.map(b=>'<span class="pill '+(c[b]?'green':'')+'">'+b+'</span>').join(''):'<span class="small">未設定，去「當月分店清單」入定先</span>';
  let extra=Object.keys(c).filter(x=>!md.master.includes(x));if(extra.length)pills.innerHTML+='<br><span class="small">未在清單的分店：</span>'+extra.map(b=>'<span class="pill green">'+b+'</span>').join('');
  document.getElementById('monthNote').value=md.note||'';document.getElementById('monthNote').onchange=e=>{md.note=e.target.value;save()};
